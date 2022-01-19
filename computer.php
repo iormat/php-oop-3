@@ -65,6 +65,25 @@
             $this -> brand = $brand;
         }
 
+        // METHODS
+        public function printSelf() {
+            echo $this . '<br>';
+        }
+
+        // to string
+        public function __toString() {
+            return $this -> getBrand() . ' ' . $this -> getModel() 
+            . ': ' . $this -> getPrice() . '€ ' 
+            . 'Code: [' . $this -> getId() . ']';
+        }
+
     }
 
+    $pc1 = new Computer('1', 2000);
+    $pc1 -> setBrand('Asus');
+    $pc1 -> setModel('Vivobook-14');
+    $pc1 -> printSelf();
+
+
+    echo '<br><br><br>Hello World'
 ?>
