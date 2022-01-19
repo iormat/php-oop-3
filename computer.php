@@ -53,15 +53,24 @@
 
         // setter
         public function setId($id) {
+            if(strlen((string)$id) != 6 || !is_numeric($id)) {
+                throw new Exception("Il codice univoco deve essere formato da 6 cifre(lettere e segni non ammessi)");
+            }
             $this -> id = $id;
         }
         public function setModel($model) {
+            $this -> checkLength($model);
             $this -> model = $model;
         }
         public function setPrice($price) {
-            $this -> price = $price;
+            if(is_int($price) && $price >= 0 && $price <= 2000) {
+                $this -> price = $price;
+            }else {
+                throw new Exception("Il prezzo deve essere compreso tra 0 e 2000");
+            }
         }
         public function setBrand($brand) {
+            $this -> checkLength($brand);
             $this -> brand = $brand;
         }
 
@@ -77,12 +86,28 @@
             . 'Code: [' . $this -> getId() . ']';
         }
 
+        // general function to check string length(brand, model)
+        public function checkLength($str) {
+            if(strlen($str) < 3 || strlen($str) > 20) {
+                throw new Exception($str . ": Deve comprendere tra i 3 e i 20 caratteri");
+            }
+        }
     }
 
-    $pc1 = new Computer('1', 2000);
-    $pc1 -> setBrand('Asus');
-    $pc1 -> setModel('Vivobook-14');
-    $pc1 -> printSelf();
+    // try-catch
+    try {
+        $pc1 = new Computer('123456', 1000);
+        $pc1 -> setBrand('Asus');
+        $pc1 -> setModel('Vivobook-14');
+        $pc1 -> printSelf();
+
+        $pc2 = new Computer('567894', 1600);
+        $pc2 -> setBrand('Apple');
+        $pc2 -> setModel('Macbook Pro 13" M1');
+        $pc2 -> printSelf();
+    } catch (Exception $err) {
+        echo $err -> getMessage(); 
+    }
 
 
     echo '<br><br><br>Hello World'
